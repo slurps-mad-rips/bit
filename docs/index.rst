@@ -20,7 +20,7 @@ and gcc), and easily supports cross compilation.
    Tutorial <tutorial/index>
    How To <howto/index>
    Design <design/index>
-   Modules <Modules/index>
+   Modules <modules/index>
 
 Indices and Tables
 ==================
