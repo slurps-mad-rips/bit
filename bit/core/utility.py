@@ -19,7 +19,7 @@ class Option(object):
         raise AttributeError('{} is not a valid option name'.format(name))
 
     def set(self):
-        temp, self.parent.args = self.parent.parser.parse_known_args()
+        temp, _ = self.parent.parser.parse_known_args()
         self.arguments.update(temp.__dict__)
 
     def add_argument(*args, **kwargs):

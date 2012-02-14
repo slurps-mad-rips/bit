@@ -21,6 +21,32 @@ them) and can be a bit faster in terms of grabbing data for later use.
 .. module:: core.utility
    :synopsis: miscellaneous types and functions
 
+.. class:: Option
+
+   The Option class is used by :class:`core.workspace.Workspace` for storing
+   user made options. The argument names are accessed in the same way
+   as the argparse namespace objects. This allows for boolean user options
+   such as ``if bit.options.release``. Additionally, arguments are only
+   parsed when one is added to the internal argument parser. This allows for
+   a delayed option check (and access) without requiring the bitfile to know
+   all possible arguments when first invoked.
+
+   The way in which arguments are parsed is less than ideal (rather than
+   storing the remaining arguments, the entire argument set is parsed each
+   time an argument is added), however this is easier in implementation terms,
+   and if it is deemed to be a performance issue, easy to workaround.
+
+   .. function:: add_argument(args, kwargs)
+
+      Invokes ArgumentParser.add_argument with the given arguments, and then
+      performs a parse for all values currently available, followed by a call
+      to set the argument parser information.
+
+   .. function:: add(self, name, default=False, help=None)
+
+      Adds a small boolean option to the arguments available. Useful for small
+      feature checks, such as release or debug values.
+
 .. class:: Platform
 
    A simple object that allows platform lookup with simple getter attributes.

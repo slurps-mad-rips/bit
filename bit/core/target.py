@@ -23,7 +23,6 @@ class Target(Context):
     # target << target1
     # target << target2
     def __lshift__(self, other):
-        # TODO: Perform circular dependency tracking
         if not isinstance(other, Target):
             raise TypeError('Given dependency is not a Target')
         self.dependencies[other.name] = other
