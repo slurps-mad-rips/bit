@@ -22,7 +22,7 @@ class Option(object):
         temp, _ = self.parent.parser.parse_known_args()
         self.arguments.update(temp.__dict__)
 
-    def add_argument(*args, **kwargs):
+    def add_argument(self, *args, **kwargs):
         self.args.add_argument(*args, **kwargs)
         self.set()
 

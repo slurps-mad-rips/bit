@@ -7,5 +7,5 @@ and the cpp module, which contains types for a C/C++/ObjC toolchain.
 .. toctree::
    :maxdepth: 1
 
-   core
+   Core <core/index>
    cpp
