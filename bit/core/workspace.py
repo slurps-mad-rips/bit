@@ -1,9 +1,11 @@
 # The 'bit' object available in all bitfiles.
 from argparse import ArgumentParser, ArgumentDefaultsHelpFormatter
 
-from bit.core.utility import Platform
+from bit.core.utility import Platform, Option
 from bit.core.context import Context
 from bit.core.target import Target
+
+import os
 
 class Workspace(Context):
 
@@ -31,6 +33,8 @@ class Workspace(Context):
         add_argument('-t', '--target', nargs='+', type=str,
                      default='all', help='target to run')
         self.options = Option(self)
-        self.args, = self.parser.parse_known_args()
+        self.args, _ = self.parser.parse_known_args()
+        self.cache = os.path.join(self.args.directory, '.bit')
+        return self
 
     def spawn(self, name): return Target(name, self)
