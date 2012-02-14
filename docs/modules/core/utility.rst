@@ -21,11 +21,11 @@ with the implementation of tasks.
    for an option to be declared, and then have its value immediately checked,
    without requiring bit to know all options at before it invokes the bitfile.
 
-.. note:: The way with which the arguments are parsed is less than ideal.
-          Currently, all arguments are reparsed from the original values passed
-          in. This could be routed by only parsing the remaining arguments,
-          however it was decided that disallowing the overwriting of
-          arguments once parsed would be beneficial.
+   The way with which the arguments are parsed is less than ideal.
+   Currently, all arguments are reparsed from the original values passed
+   in. This could be routed by only parsing the remaining arguments,
+   however it was decided that disallowing the overwriting of
+   arguments once parsed would be beneficial.
 
    .. function:: add_argument(self, args, kwargs)
 
