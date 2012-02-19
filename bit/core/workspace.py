@@ -32,6 +32,8 @@ class Workspace(Context):
                      default=os.getcwd(), help='root execution directory')
         add_argument('-t', '--target', nargs='+', type=str,
                      default='all', help='target to run')
+        add_argument('--debug-mode', action='store_true', default=False,
+                     help='enables debug mode')
         self.options = Option(self)
         self.args, _ = self.parser.parse_known_args()
         self.cache = os.path.join(self.args.directory, '.bit')
