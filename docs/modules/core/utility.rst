@@ -23,23 +23,23 @@ with the implementation of tasks.
 
    The way with which the arguments are parsed is less than ideal.
    Currently, all arguments are reparsed from the original values passed
-   in. This could be routed by only parsing the remaining arguments,
-   however it was decided that disallowing the overwriting of
-   arguments once parsed would be beneficial.
+   in. As such, any values contained within the Options type should be
+   considered read-only
 
-   .. function:: add_argument(self, args, kwargs)
+   .. method:: add_argument(args, kwargs)
 
       A simple wrapper around the internal argument parser, which adds the
       argument internally, and then sets the argument value depending on what
       can be parsed from the arguments passed in to bit.
 
-   .. function:: add(self, name, default=False, help=None)
+   .. method:: add(name, default=False, help=None)
 
       A shortcut for a small boolean option. Useful for small feature checks
       such as ``with-feature`` or ``enable-x``
 
-.. note:: When adding a boolean option with a hyphen in the name, the argparse
-          module will automatically turn it into an underscore when parsed.
+      .. note:: When adding a boolean option with a hyphen in the name, the
+                argparse module will automatically turn it into an underscore
+                when parsed.
 
 .. class:: Platform
 

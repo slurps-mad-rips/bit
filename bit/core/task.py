@@ -59,6 +59,8 @@ class Task(Context, metaclass=MetaTask):
     # Execution order is
     # 1) Does the requested value exist in our custom attributes dict?
     # 2) Set the attribute of the instance dict.
+    # TODO: fix the attributes so that a flatten isn't being applied every
+    #       single time. This breaks the input/output listing.
     def __setattr__(self, name, value):
         try: attributes = object.__getattribute__(self, 'attributes')
         except AttributeError: attributes = { }
@@ -77,7 +79,7 @@ class Task(Context, metaclass=MetaTask):
     def run(self):
         for dep in self.order:self.dependencies[dep].run()
         cache_file = os.path.join(self.cache, self.name)
-        if os.path.exists(cache_file):
+        if os.path.isfile(cache_file):
             with open(cache_file, serialize_read_mode) as cache:
                 self.deserialize(cache.read())
         self.execute()

@@ -17,7 +17,7 @@ Features
 Requirements
 ------------
 
- * Python 3.2
+ * Python 3.2 (or later)
  * Nose (for running unit tests)
  * Tox (for virtualenv unit tests)
  * Sphinx (for building documentation)
