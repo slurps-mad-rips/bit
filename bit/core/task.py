@@ -14,13 +14,14 @@ class MetaTask(type):
         MetaTask.lookup[name] = task
         return task
 
-    # TODO: Implement error handling for when a task can't be found
     @staticmethod
-    def get(name) : return MetaTask.lookup[name]
+    def get(name):
+        try: return MetaTask.lookup[name]
+        except KeyError as e:
+            error('could not find task: {}'.format(e))
+            raise # rethrow KeyError
 
-# The base task class gets a bit hacky,
-# because we overridde a lot of parent methods.
-# This results in recursion otherwise :/
+# A bit hacky because we override a lot of Context methods
 class Task(Context, metaclass=MetaTask):
     def __init__(self, name, parent):
         super().__init__(name, parent)
@@ -29,7 +30,8 @@ class Task(Context, metaclass=MetaTask):
         self.serialization = { }
         self.file = os.path.join(self.cache, self.name)
 
-        # All attribute values MUST be a list.
+        # All attribute values MUST be a list, as incoming values are
+        # sent through flatten, and then +='d to the list
         self.attributes = dict(input=[],#self.files.input,
                                output=[])#self.files.output)
     # On delete, the task's serialize method is called
