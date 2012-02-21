@@ -25,30 +25,23 @@ class Task(Context, metaclass=MetaTask):
     def __init__(self, name, parent):
         super().__init__(name, parent)
         self.description = 'Base Task'
+        self.deserialization = { }
+        self.serialization = { }
+        self.file = os.path.join(self.cache, self.name)
 
         # All attribute values MUST be a list.
         self.attributes = dict(input=[],#self.files.input,
                                output=[])#self.files.output)
-        self.deserialization = { }
-        self.serialization = { }
-
     # On delete, the task's serialize method is called
     # Additional exceptions (such as IO) are reported by Python,
     # but ignored.
-    # TODO: Setup JSON writing.
     def __del__(self):
         try: os.makedirs(os.path.normpath(self.cache), exist_ok=True)
         except OSError: error('Cannot create task cache {}'.format(self.cache))
-        with open(os.path.join(self.cache, self.name), 'w') as cache:
-            cache.write(self.serialize())
+        with open(self.file, 'w') as cache:
+            cache.write(json.dumps(self.serialize(), **self.serialization))
 
-    # Called after dependencies, but BEFORE self.execute
-    # data is whatever is in the contents of the file,
-    # but the file must be readable in 'r' mode.
     def deserialize(self, data): pass
-
-    # Must be implemented by child classes to save/cache info
-    # No assumptions are made about outgoing or incoming data
     def serialize(self): return [ ]
 
     # Execcution order
@@ -63,8 +56,6 @@ class Task(Context, metaclass=MetaTask):
     # Execution order is
     # 1) Does the requested value exist in our custom attributes dict?
     # 2) Set the attribute of the instance dict.
-    # TODO: fix the attributes so that a flatten isn't being applied every
-    #       single time. This breaks the input/output listing.
     def __setattr__(self, name, value):
         try: attributes = object.__getattribute__(self, 'attributes')
         except AttributeError: attributes = { }
@@ -80,11 +71,11 @@ class Task(Context, metaclass=MetaTask):
         return MetaTask.get(name)(name, self)
 
     # Modified from the default so that we can deserialize at the right moment
-    # TODO: Use JSON for reading
     def run(self):
         for dep in self.order:self.dependencies[dep].run()
         cache_file = os.path.join(self.cache, self.name)
-        if os.path.isfile(cache_file):
-            with open(cache_file) as cache:
-                self.deserialize(cache.read())
+        if os.path.isfile(self.file):
+            with open(self.file) as cache:
+                self.deserialize(json.loads(cache.read(),
+                                            **self.deserialization))
         self.execute()
