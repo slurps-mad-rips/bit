@@ -11,7 +11,7 @@ class MetaTask(type):
 
     def __new__(cls, name, bases, attrs):
         task = super().__new__(cls, name, bases, attrs)
-        MetaTask.lookup[name.lower()] = task
+        MetaTask.lookup[name] = task
         return task
 
     # TODO: Implement error handling for when a task can't be found

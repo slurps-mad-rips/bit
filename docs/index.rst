@@ -17,7 +17,7 @@ and gcc), and easily supports cross compilation.
 .. toctree::
    :maxdepth: 1
 
-   Tutorial <tutorial/index>
+   Tutorial <tutorial>
    How To <howto/index>
    Design <design/index>
    Modules <modules/index>

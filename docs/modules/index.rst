@@ -4,12 +4,15 @@ Bit Modules
 The modules provided with Bit are the core module, where all basic logic stems,
 and the cxx module, which contains types for a C/C++/ObjC toolchain.
 
+The core module's documentation contains information on the actual internal
+workings of bit. The other modules documentation shows a list of tasks,
+and their use as well as expected behavior.
+
 .. toctree::
    :maxdepth: 1
 
    Core <core/index>
    C++ <cxx/index>
-
 
 Bit
 ---
