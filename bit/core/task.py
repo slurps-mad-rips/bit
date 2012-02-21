@@ -2,6 +2,7 @@ from bit.core.utility import flatten
 from bit.core.context import Context
 from bit.core.color import error
 
+import json
 import os
 
 # Tasks get registed by using metatask as their metaclass
@@ -28,10 +29,13 @@ class Task(Context, metaclass=MetaTask):
         # All attribute values MUST be a list.
         self.attributes = dict(input=[],#self.files.input,
                                output=[])#self.files.output)
+        self.deserialization = { }
+        self.serialization = { }
 
     # On delete, the task's serialize method is called
     # Additional exceptions (such as IO) are reported by Python,
     # but ignored.
+    # TODO: Setup JSON writing.
     def __del__(self):
         try: os.makedirs(os.path.normpath(self.cache), exist_ok=True)
         except OSError: error('Cannot create task cache {}'.format(self.cache))
@@ -45,7 +49,7 @@ class Task(Context, metaclass=MetaTask):
 
     # Must be implemented by child classes to save/cache info
     # No assumptions are made about outgoing or incoming data
-    def serialize(self): return ''
+    def serialize(self): return [ ]
 
     # Execcution order
     # 1) Does the requested name exist in our attributes dict?
@@ -76,10 +80,11 @@ class Task(Context, metaclass=MetaTask):
         return MetaTask.get(name)(name, self)
 
     # Modified from the default so that we can deserialize at the right moment
+    # TODO: Use JSON for reading
     def run(self):
         for dep in self.order:self.dependencies[dep].run()
         cache_file = os.path.join(self.cache, self.name)
         if os.path.isfile(cache_file):
-            with open(cache_file, serialize_read_mode) as cache:
+            with open(cache_file) as cache:
                 self.deserialize(cache.read())
         self.execute()

@@ -46,21 +46,38 @@ Task
       Currently unused, however this might be used in the future for a list
       option, and should be set by a task each time.
 
+   .. attribute:: deserialization
+
+      A dictionary which contains the values used for json-decoding. The values
+      should be key-value pairs equivalent to the arguments passed into
+      ``json.loads``
+
+   .. attribute:: serialization
+
+      A dictionary which contains the values used for json-encoding. The values
+      should be any object which can be sent to json.dumps for serialization.
+
    .. method:: deserialize(data)
-               serialize
 
-      It is up to any specific task on how it serializes data between runs.
-      As of right now, it will call serialize when the actual task is being
-      garbage collected.
+      When a task is deserialized, the contents of its cache file will be read
+      into memory, and then decoded with the python JSON module. The resulting
+      object is then passed in to deserialize. Any options related to the
+      decoding of JSON should be modified with the deserialization attribute
+      dictionary.
 
-      .. note:: The serialize and deserialize methods are going to be changed
-                such that they are simply called instead of performing the
-                actual file IO. This will allow the task to serialize
-                data however it wants, at the cost of additional complexity.
-                
-                On the other hand, this allows for serialization in whatever
-                format is considered best, such as json, flat files, sqlite,
-                or even xml.
+      This method is called after dependencies, but BEFORE the task actually
+      executes.
+
+      :param data: Object deserialized from JSON.
+
+   .. method:: serialize
+
+      Serialize is called before the Task is actually garbage collected,
+      and should return a JSON encodable object. Any options related to the
+      encoding of JSON should be placed in the serialization attribute
+      dictionary.
+
+      :returns: A JSON Encodable object, such as a list, dict, etc.
 
    .. method:: __setattr__(name, value)
 
@@ -70,7 +87,39 @@ Task
           task.input = 2, 3, 4, 5
 
       To not result in data being overwritten. Additionally, anything that goes
-      'in' to an attribute is not flattened until the user requests it.
+      'in' to an attribute is not flattened unless the task tells it to.
 
-      .. note:: This is not what actually happens at this moment in time.
-                It will be fixed shortly.
+   .. method:: __getattr__(name):
+      
+      Returns the attribute located in the task by name.
+      Execution order is
+
+        1. Does the requested name exist in our attributes dict?
+        2. Call Context.__getattr__(name)
+
+   .. method:: __call__(name)
+
+      :param name: the new name with which to refer to the task by.
+      :type name: str
+
+      This is used to change the name of a task, to workaround being unable to
+      run multiple tasks with the same name. Because of the order in which
+      tasks are registered to their parent, using the ``__call__`` method
+      before exiting the with context will change the name.
+
+   .. method:: __del__
+      
+      Calls :meth:`core.task.Task.serialize` when the object is destructed.
+      First creates the tasks 'cache' folder.
+
+      .. warning:: Take care when debugging, or throwing exceptions during
+                   anything called during __del__. The CPython implementation
+                   ignores these, and exits regardless.
+
+   .. method:: spawn(name)
+
+      :param name: Name of the task to lookup from :class:`core.task.MetaTask`.
+      :type name: str
+
+      Works in the exact same way as :class:`core.target.Target`. This results
+      in tasks being capable of spawning others that are dependent on them.
