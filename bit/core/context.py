@@ -13,7 +13,8 @@ class Context(object):
         self.parent = parent       # Let's us call up the dep graph
         self.name = name           # An optional name for command line options
 
-        if parent: self.cache = os.path.join(parent.cache, self.name)
+        self.cache = os.path.join(parent.cache if parent else '', self.name)
+
 
     def __setitem__(self, key, value): self.properties[key] = value
     def __getitem__(self, key): return self.properties[key]

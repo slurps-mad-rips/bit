@@ -34,9 +34,7 @@ class Task(Context, metaclass=MetaTask):
         # sent through flatten, and then +='d to the list
         self.attributes = dict(input=[],#self.files.input,
                                output=[])#self.files.output)
-    # On delete, the task's serialize method is called
-    # Additional exceptions (such as IO) are reported by Python,
-    # but ignored.
+    
     def __del__(self):
         try: os.makedirs(os.path.normpath(self.cache), exist_ok=True)
         except OSError: error('Cannot create task cache {}'.format(self.cache))

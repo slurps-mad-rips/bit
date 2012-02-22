@@ -12,15 +12,13 @@ class TestTask(Test):
     @istest
     def name(self):
         with Task('my_task', None) as task:
-            task.cache = 'build' # Used to remove ignored KeyError warning
             eq(task.name, 'my_task')
-            with task.task('my_task2') as task2:
+            with task.Task('my_task2') as task2:
                 eq(task2.name, 'my_task2')
 
     @istest
     def description(self):
         with Task('my_task', None) as task:
-            task.cache = 'build'
             eq(task.description, 'Base Task')
 
     @istest
@@ -28,7 +26,7 @@ class TestTask(Test):
         with Task('my_task', None) as task:
             task.cache = 'build'
             eq(task.parent, None)
-            with task.task as task2:
+            with task.Task as task2:
                 eq(task2.parent, task)
 
     @istest
