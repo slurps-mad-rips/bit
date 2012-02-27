@@ -1,4 +1,6 @@
-Copyright (c) 2009 - 2012, Tres Walsh
+.. |copy| unicode:: U+000A9
+
+Copyright |copy| 2009 - 2012, Tres Walsh
 All rights reserved.
 
 Redistribution and use in source and binary forms, with or without 

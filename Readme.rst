@@ -1,6 +1,10 @@
 Bit -- The Minimalistic Build System
 ====================================
 
+.. image:: https://secure.travis-ci.org/sahchandler/bit.png
+   :target: http://travis-ci.org/sahchandler/bit
+   :alt: Build Status
+
 Bit is an easy to use, easy to extend, and easy to understand build system.
 Unlike generative build systems, such as CMake, premake, or autotools, bit
 is a replacemnt for systems such as make, scons and waf.
