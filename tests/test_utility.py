@@ -12,7 +12,7 @@ class TestWhich(Test):
 
     @istest
     def python(self):
-        eq(sys.executable, which('python'))
+        eq(sys.executable, which(sys.executable))
 
     @istest
     @raises(LocateError)
