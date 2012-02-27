@@ -60,6 +60,7 @@ class Platform(object):
         self.macosx = True if sys.platform == 'darwin' else False
         self.linux = True if 'linux' in sys.platform else False
         self.bsd = True if 'bsd' in sys.platform else False
+        self.posix = not self.windows
 
 @contextmanager
 def pushd(directory):
