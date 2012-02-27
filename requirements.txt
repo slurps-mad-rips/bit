@@ -1,0 +1,2 @@
+sphinx
+tox >= 1.3

@@ -1,0 +1,12 @@
+# Travis CI config file
+language: python
+python:
+  - 3.2
+
+notifications:
+  email: false
+# dependency grabber
+install: pip install -r requirements.txt --use-mirrors
+
+# thank tox that it exists!
+script: tox

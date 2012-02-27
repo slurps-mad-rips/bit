@@ -35,6 +35,25 @@ class Option(object):
         )
         
 
+# Used to handle file list references being in tasks
+class FileList(object):
+
+    def __init__(self):
+        self.output_list = []
+        self.input_list = []
+
+    @property
+    def output(self): return self.output_list
+
+    @property
+    def input(self): return self.input_list
+
+    @output.setter
+    def output(self, value): self.output_list += value
+
+    @input.setter
+    def input(self, value): self.input_list += value
+
 class Platform(object):
     def __init__(self):
         self.windows = True if sys.platform == 'win32' else False

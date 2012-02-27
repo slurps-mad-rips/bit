@@ -19,6 +19,22 @@ class TestWhich(Test):
     def unknown(self):
         which('some executable name that you will never ever have')
 
+class TestFileList(Test):
+
+    def __init__(self, *args):
+        super().__init__(*args)
+        self.files = FileList()
+
+    @istest
+    def input(self):
+        self.files.input = 1, 2, 3, 4, 5
+        eq(self.files.input, [1, 2, 3, 4, 5])
+        z = self.files.input
+        eq(z, [1, 2, 3, 4, 5])
+        self.files.input = 2, 3
+        eq(self.files.input, z)
+        eq(z, [1, 2, 3, 4, 5, 2, 3])
+
 class TestPlatform(Test):
 
     def __init__(self, *args):
