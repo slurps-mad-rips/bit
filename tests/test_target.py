@@ -13,9 +13,13 @@ class TestTarget(Test):
     def spawn(self):
         with Target('test', None) as target:
             target.cache = 'build'
-            with target.Task('task') as task:
+            with target.task as task:
                 eq(task.name, 'task')
+            with target.task('words') as task:
+                eq(task.name, 'words')
+            ok('words' in target.dependencies)
             ok('task' in target.dependencies)
+            eq(target.task, target.dependencies['words'])
             eq(target.task, target.dependencies['task'])
 
     @istest

@@ -4,6 +4,7 @@ from operator import add
 
 from bit.core.error import LocateError
 
+import json
 import sys
 import os
 
@@ -13,7 +14,7 @@ class Option(object):
         self.parent = parent
         self.args = parent.parser.add_argument_group('Options', 'User Defined')
         self.arguments = { }
-
+    
     def __getattr__(self, name):
         if name in self.arguments: return name
         raise AttributeError('{} is not a valid option name'.format(name))
@@ -33,7 +34,6 @@ class Option(object):
             default=default,
             help=help
         )
-        
 
 # Used to handle file list references being in tasks
 class FileList(object):
@@ -49,10 +49,10 @@ class FileList(object):
     def input(self): return self.input_list
 
     @output.setter
-    def output(self, value): self.output_list += value
+    def output(self, value): self.output_list += flatten(value)
 
     @input.setter
-    def input(self, value): self.input_list += value
+    def input(self, value): self.input_list += flatten(value)
 
 class Platform(object):
     def __init__(self):
@@ -60,7 +60,7 @@ class Platform(object):
         self.macosx = True if sys.platform == 'darwin' else False
         self.linux = True if 'linux' in sys.platform else False
         self.bsd = True if 'bsd' in sys.platform else False
-        self.posix = not self.windows
+        self.posix = self.macosx or self.linux or self.bsd
 
 @contextmanager
 def pushd(directory):
@@ -78,7 +78,8 @@ def flatten(container):
     return reduce(add, map(flatten, container)) if container else []
 
 def which(name):
-    if sys.platform == 'win32': name = '{}.exe'.format(name)
+    if sys.platform == 'win32' and not name.endswith('.exe'):
+        name = '{}.exe'.format(name)
     path, _ = os.path.split(name)
     if path and is_exe(name): return name
     for path in os.environ['PATH'].split(os.pathsep):

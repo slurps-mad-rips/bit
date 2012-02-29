@@ -1,4 +1,4 @@
-from bit.core.task import Task
+from bit.core.task import *
 
 from nose.tools import ok_ as ok, eq_ as eq, istest
 
@@ -12,13 +12,15 @@ class TestTask(Test):
     @istest
     def name(self):
         with Task('my_task', None) as task:
+            task.cache = 'build'
             eq(task.name, 'my_task')
-            with task.Task('my_task2') as task2:
+            with task.task('my_task2') as task2:
                 eq(task2.name, 'my_task2')
 
     @istest
     def description(self):
         with Task('my_task', None) as task:
+            task.cache = 'build'
             eq(task.description, 'Base Task')
 
     @istest
@@ -26,7 +28,7 @@ class TestTask(Test):
         with Task('my_task', None) as task:
             task.cache = 'build'
             eq(task.parent, None)
-            with task.Task as task2:
+            with task.task as task2:
                 eq(task2.parent, task)
 
     @istest

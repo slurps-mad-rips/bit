@@ -13,7 +13,7 @@ class Context(object):
         self.parent = parent       # Let's us call up the dep graph
         self.name = name           # An optional name for command line options
 
-        self.cache = os.path.join(parent.cache if parent else '', self.name)
+        self.cache = os.path.join(parent.cache, self.name) if parent else ''
 
 
     def __setitem__(self, key, value): self.properties[key] = value
@@ -29,7 +29,7 @@ class Context(object):
         try: dependencies = object.__getattribute__(self, 'dependencies')
         except AttributeError: dependencies = { }
         if name in dependencies: return dependencies[name]
-        return self.spawn(name)
+        return object.__getattribute__(self, 'spawn')(name)
 
     def __enter__(self): return self
 

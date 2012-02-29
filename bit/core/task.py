@@ -1,4 +1,4 @@
-from bit.core.utility import flatten
+from bit.core.utility import flatten, FileList
 from bit.core.context import Context
 from bit.core.color import error
 
@@ -11,7 +11,7 @@ class MetaTask(type):
 
     def __new__(cls, name, bases, attrs):
         task = super().__new__(cls, name, bases, attrs)
-        MetaTask.lookup[name] = task
+        MetaTask.lookup[name.lower()] = task
         return task
 
     @staticmethod
@@ -28,12 +28,14 @@ class Task(Context, metaclass=MetaTask):
         self.description = 'Base Task'
         self.deserialization = { }
         self.serialization = { }
+        self.changed = False
+        self.files = FileList()
         self.file = os.path.join(self.cache, self.name)
 
         # All attribute values MUST be a list, as incoming values are
         # sent through flatten, and then +='d to the list
-        self.attributes = dict(input=[],#self.files.input,
-                               output=[])#self.files.output)
+        self.attributes = dict(output=self.files.output,
+                               input=self.files.input)
     
     def __del__(self):
         try: os.makedirs(os.path.normpath(self.cache), exist_ok=True)
@@ -46,7 +48,7 @@ class Task(Context, metaclass=MetaTask):
 
     # Execcution order
     # 1) Does the requested name exist in our attributes dict?
-    # 2) return object.__getattribute__
+    # 2) return Context.__getattr__
     def __getattr__(self, name):
         try: attributes = object.__getattribute__(self, 'attributes')
         except AttributeError: attributes = { }
