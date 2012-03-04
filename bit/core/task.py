@@ -25,10 +25,10 @@ class MetaTask(type):
 class Task(Context, metaclass=MetaTask):
     def __init__(self, name, parent):
         super().__init__(name, parent)
-        self.description = 'Base Task'
+        self.description = self.__class__.__name__.lower()
         self.deserialization = { }
         self.serialization = { }
-        self.changed = False
+        self.changed = False # currently unused :/
         self.files = FileList()
         self.file = os.path.join(self.cache, self.name)
 
