@@ -3,21 +3,22 @@ from bit.core.task import Task
 from string import Template
 
 # Currently VERY specific in how it works Oof :/
-# TODO: Make it easier to modify
-# NOTE: VERY BROKEN ATM
 class CXXConfigure(Task):
-    '''
-    # On change will result in self.execute being run
+
     def deserialize(self, data):
-        # First check for files that have changed
-        for file in self.input.files:
-            pass
-            #data[file]
+        # check actual properties for changes
+        if data['properties'] == self.properties: return
 
-        # Then check actual property values
-        if data['properties'] != self.properties:
-            pass
+        name = self.input[0]
+        time, hash = data[name]
+        # TODO: get the only input file
+        #if data['input'] == self.input[0]
+            
+    def serialize(self): pass
+    def execute(self): pass
 
+    def fix(self, line): pass
+    '''
     #TODO: fix to hold more information
     def serialize(self): return self.properties
 

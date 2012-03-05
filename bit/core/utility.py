@@ -4,6 +4,7 @@ from operator import add
 
 from bit.core.error import LocateError
 
+import hashlib
 import json
 import sys
 import os
@@ -69,6 +70,15 @@ def pushd(directory):
     os.chdir(directory)
     yield
     os.chdir(old)
+
+def file_changed(name, data):
+    pass
+
+# Returns an int that is the MD5
+def hash_file(name):
+    with open(name, 'rb') as file:
+        hash = int(hashlib.md5(file.read()).hexdigest(), base=16)
+    return hash
 
 def is_exe(path):
     return os.access(path, os.X_OK)

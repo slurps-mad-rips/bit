@@ -21,7 +21,7 @@ class TestTask(Test):
     def description(self):
         with Task('my_task', None) as task:
             task.cache = 'build'
-            eq(task.description, 'Base Task')
+            eq(task.description, 'Task')
 
     @istest
     def parent(self):

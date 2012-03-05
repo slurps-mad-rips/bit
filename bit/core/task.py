@@ -25,7 +25,7 @@ class MetaTask(type):
 class Task(Context, metaclass=MetaTask):
     def __init__(self, name, parent):
         super().__init__(name, parent)
-        self.description = self.__class__.__name__.lower()
+        self.description = self.__class__.__name__
         self.deserialization = { }
         self.serialization = { }
         self.changed = False # currently unused :/

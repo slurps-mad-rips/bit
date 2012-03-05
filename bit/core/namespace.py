@@ -7,7 +7,7 @@ class Namespace(Task):
 
     def __init__(self, name, parent):
         super().__init__(name, parent)
-        self.prefix = self.__class__.__name__
+        self.prefix = self.__class__.__name__.lower()
 
     # The prefix doesn't matter in terms of capitalization because
     # the MetaTask.get method will use the .lower() call to create it
