@@ -19,6 +19,7 @@ metadata stored.
 
    workspace
    target
+   namespace
    task
    context
    utility
