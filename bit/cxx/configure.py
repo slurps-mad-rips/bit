@@ -12,4 +12,4 @@ class CXXConfigure(Task):
         with open(self.output[0], 'w') as file:
             template = Template(filename=self.input[0],
                                 module_directory=self.cache)
-            file.write(str(template.render(**self.properties))
+            file.write(str(template.render(**self.properties)))
