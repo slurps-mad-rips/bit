@@ -72,7 +72,13 @@ def pushd(directory):
     os.chdir(old)
 
 def file_changed(name, data):
-    pass
+    orig_hash = int(data.get('hash', '0'), base=16)
+    orig_time = int(data.get('time', 0))
+    orig_name = data.get('name', None)
+
+    if name != orig_name: return True
+    # Should short-circuit the hash_file call.
+    return time == orig_time and orig_hash == hash_file(name)
 
 # Returns an int that is the MD5
 def hash_file(name):

@@ -21,7 +21,7 @@ setup(
     description=metadata['summary'],
     keywords=metadata['keywords'],
     classifiers=metadata['classifiers'].split('\n')[1:],
-    install_requires=['distribute'],
+    install_requires=['distribute', 'mako>=0.6.2'],
     setup_requires=['nose>=1.1.2'],
     test_suite = 'nose.collector',
     # Content/Data
