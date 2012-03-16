@@ -18,8 +18,7 @@ class Workspace(Context):
     )
 
 
-    def __init__(self):
-        super().__init__('bit', None)
+    def __init__(self): super().__init__('bit', None)
 
     # Workspace is only ever instantiated once (in the main function)
     # and then passed into the resulting bitfile via exec.

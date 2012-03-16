@@ -1,8 +1,10 @@
 from bit.core.utility import flatten, FileList
 from bit.core.context import Context
-from bit.core.color import error
+
+from color import print
 
 import json
+import sys
 import os
 
 # Tasks get registed by using metatask as their metaclass
@@ -18,7 +20,7 @@ class MetaTask(type):
     def get(name):
         try: return MetaTask.lookup[name]
         except KeyError as e:
-            error('could not find task: {}'.format(e))
+            print('could not find task:', name, color='red', file=sys.stderr)
             raise # rethrow KeyError
 
 # A bit hacky because we override a lot of Context methods
@@ -39,7 +41,9 @@ class Task(Context, metaclass=MetaTask):
     
     def __del__(self):
         try: os.makedirs(os.path.normpath(self.cache), exist_ok=True)
-        except OSError: error('Cannot create task cache {}'.format(self.cache))
+        except OSError:
+            print('cannot create task cache:', self.cache, color='red',
+                    file=sys.stderr)
         with open(self.file, 'w') as cache:
             cache.write(json.dumps(self.serialize(), **self.serialization))
 

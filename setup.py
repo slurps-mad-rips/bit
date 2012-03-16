@@ -9,7 +9,7 @@ import os
 config = ConfigParser()
 config.read(os.path.join(os.getcwd(), 'setup.cfg'))
 metadata = config['metadata']
-files = config['files']
+packages = config['files']
 
 setup(
     # Config information
@@ -21,11 +21,15 @@ setup(
     description=metadata['summary'],
     keywords=metadata['keywords'],
     classifiers=metadata['classifiers'].split('\n')[1:],
-    install_requires=['distribute', 'mako>=0.6.2'],
-    setup_requires=['nose>=1.1.2'],
+    install_requires=['distribute'],
+    setup_requires=[
+        'nose>=1.1.2',
+        'mako>=0.6.2',
+        'color>=0.1'
+    ],
     test_suite = 'nose.collector',
     # Content/Data
-    packages=files['packages'].split('\n')[1:],
+    packages=packages['packages'].split('\n')[1:],
     entry_points=dict(console_scripts=['bit=bit:main']),
     # Additional Info
     zip_safe=True

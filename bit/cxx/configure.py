@@ -1,4 +1,3 @@
-from bit.core.color import error
 from bit.core.task import Task
 
 from mako.template import Template

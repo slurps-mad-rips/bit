@@ -16,7 +16,7 @@ Features
 
  * Dependency graph is built simply by writing your build script
  * Build scripts are python scripts
- * Released under a 3-clause BSD License
+ * Released under a 2-clause BSD License
 
 Requirements
 ------------

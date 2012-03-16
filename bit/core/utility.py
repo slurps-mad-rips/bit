@@ -93,6 +93,8 @@ def flatten(container):
     if not isinstance(container, (list, tuple)): return [container]
     return reduce(add, map(flatten, container)) if container else []
 
+# Will be removed so that pip's util.find_command function can be used
+# instead.
 def which(name):
     if sys.platform == 'win32' and not name.endswith('.exe'):
         name = '{}.exe'.format(name)
