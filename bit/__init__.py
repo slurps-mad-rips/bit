@@ -1,6 +1,5 @@
 from bit.core.workspace import Workspace
 from bit.core.utility import pushd, flatten
-from bit.core.color import error
 
 import os
 
