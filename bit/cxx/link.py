@@ -6,7 +6,8 @@ class CXXLink(Task):
     def __init__(self, *args):
         super().__init__(*args)
         self.attributes.update(dict(
-            library[],
+            library=[],
+            libdir=[],
             flags=[],
             type=[] # We will 'pop' whatever the type is from the list, so no
                     # worries :v

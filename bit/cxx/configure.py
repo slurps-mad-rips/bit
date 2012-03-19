@@ -2,6 +2,10 @@ from bit.core.task import Task
 
 from mako.template import Template
 
+# Mako has a GREAT templating language that is actually really easy to apply to
+# more than just HTML. It's also available via pip, and works with python 3,
+# so we can take advantage of that.
+
 # The mako templates use a caching system which we take advantage of to
 # see if we need to regenerate anything. Saves us time!
 class CXXConfigure(Task):

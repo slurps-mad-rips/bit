@@ -1,16 +1,18 @@
 from bit.core.task import Task
 
+from bit.cxx.compiler import *
+
 class CXXCompile(Task):
     
-    compiler = None # Currently don't have a default compiler set...
+    compiler = CXX() # CXX is the 'platform default' compiler on import
 
     def __init__(self, *args):
         super().__init__(*args)
         self.attributes.update(dict(
-            cxxflags=[],
             include=[],
-            library=[],
             defines=[],
-            cflags=[],
             flags=[]
         ))
+
+    def execute(self):
+        pass        

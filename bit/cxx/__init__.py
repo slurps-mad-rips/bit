@@ -2,4 +2,6 @@
 # 'from bit import cxx' statement
 # This kind of thing will most likely be used in other toolchain modules :/
 from bit.cxx.configure import CXXConfigure
+from bit.cxx.compile import CXXCompile
+from bit.cxx.link import CXXLink
 from bit.cxx.cxx import CXX
